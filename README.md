@@ -1,0 +1,1 @@
+# 52days-commercetools-challenge
