@@ -1,0 +1,9 @@
+{
+    "container": "reference-demo-container",
+    "key": "product-reference-key",
+    "value": {
+        "typeId": "product",
+        "id": "<product_id>"
+    }
+
+}
