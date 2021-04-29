@@ -1,5 +1,5 @@
 ## Getting started
-This tutorial will show you how to use the middlewares in this commercetools Typescript SDK to get a simple commercetools Javascript app running.
+This tutorial will show you how to use the middlewares in this **[commercetools Typescript SDK](https://github.com/commercetools/commercetools-sdk-typescript/)** to get a simple commercetools Javascript app running.
 
 ### Create a API client
 [Create API client](https://docs.commercetools.com/tutorials/getting-started#creating-an-api-client) from Merchant Center. If you not have account [follow the steps to create a free trail account](https://docs.commercetools.com/tutorials/getting-started#first-steps). 
