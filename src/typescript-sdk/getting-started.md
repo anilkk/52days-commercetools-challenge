@@ -16,10 +16,10 @@ $ npm init -y
 ```
 
 After you’re done, you’ll have a new package.json file in your directory.
-Install the `@commercetools/sdk-client`, `@commercetools/sdk-middleware-auth`, `@commercetools/sdk-middleware-http`, `@commercetools/api-request-builder` and `dotenv` packages and save it to your `package.json` dependencies using the following command:
+Install the `@commercetools/sdk-client`, `@commercetools/sdk-middleware-auth`, `@commercetools/sdk-middleware-http`, `@commercetools/typescript-sdk` and `dotenv` packages and save it to your `package.json` dependencies using the following command:
 
 ```
-$ npm install @commercetools/sdk-client @commercetools/sdk-middleware-auth @commercetools/sdk-middleware-http @commercetools/api-request-builder dotenv
+$ npm install @commercetools/sdk-client @commercetools/sdk-middleware-auth @commercetools/sdk-middleware-http @commercetools/typescript-sdk dotenv
 ```
 
 Create a new file called project.js in this directory and add the following code:
