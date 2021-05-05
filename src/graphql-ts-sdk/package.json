@@ -1,0 +1,19 @@
+{
+  "name": "graphql-ts-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "customer.js",
+  "scripts": {
+    "customer-run": "node customer.js --verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@commercetools/sdk-client": "^2.1.2",
+    "@commercetools/sdk-middleware-auth": "^6.1.4",
+    "@commercetools/sdk-middleware-http": "^6.0.11",
+    "@commercetools/typescript-sdk": "^0.0.22",
+    "dotenv": "^8.2.0"
+  }
+}
