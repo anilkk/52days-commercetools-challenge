@@ -2,7 +2,7 @@
 This tutorial will show you how to create a new customer using **[commercetools Typescript SDK](https://github.com/commercetools/commercetools-sdk-typescript/)** and **[GraphQL](https://docs.commercetools.com/api/graphql)** on your commercetools project. You already finished [Getting started with TypeScript SDK and GraphQL](../getting-started-with-graphql-ts-sdk/getting-started.md) tutorials and basic project steps are not repeated here again. 
 
 ### Set up `customer.js` file
-Create a new file called `customer.js` in this directory and add the following code:
+Create a new file called `customer.js` in your project root directory and add the following code:
 
 ```js
 const { createClient } = require('@commercetools/sdk-client')
@@ -16,15 +16,15 @@ require('dotenv').config()
 console.log('Create a new customer using GraphQL and TypeScript SDK');
 ```
 
-Nodejs dependencies are already installed as part of [Getting started with TypeScript SDK and GraphQL](../getting-started-with-graphql-ts-sdk/getting-started.md).Back at the command line, run the program using the following command:
+Nodejs dependencies `@commercetools/sdk-client`, `@commercetools/sdk-middleware-auth`,`@commercetools/sdk-middleware-http`, `@commercetools/typescript-sdk`, and `dotenv` are already installed as part of [Getting started with TypeScript SDK and GraphQL](../getting-started-with-graphql-ts-sdk/getting-started.md) tutorial. Back at the command line, run the program using the following command:
 ```
 $ node customer.js
 Create a new customer using GraphQL and TypeScript SDK
 ```
 If you see the same output as above, we’re ready to start.
 
-### Create a API client
-- assumption already done the getting started guide
+### Create an API client
+You already have API client from the [Getting started with TypeScript SDK and GraphQL](../getting-started-with-graphql-ts-sdk/getting-started.md) tutorial on `project.js` file.
 
 Re-open `customer.js` and add the following code:
 ```js
@@ -43,7 +43,7 @@ const authMiddleware = createAuthMiddlewareForClientCredentialsFlow({
         clientId: ADMIN_CLIENT_ID,
         clientSecret: ADMIN_CLIENT_SECRET,
     },
-    scopes: ['<your_client_scope>'],
+    scopes: ['<your_client_scopes>'],
     fetch,
 })
 
@@ -62,11 +62,11 @@ const client = createClient({
 const apiRoot = createApiBuilderFromCtpClient(client)
 
 ```
-Replace the value `<your_project_key>`, `<your_auth_url>`, `<your_client_scope>` and `<your_api_url>` with your client `project_key`, `API URL`, `scope`, and `Auth URL` that you copied earlier or if you don't want to ureplace values, you can copy this code snippet from `project.js` file.
+Replace the value `<your_project_key>`, `<your_auth_url>`, `<your_client_scopes>` and `<your_api_url>` with your client `projectKey`, `hostAPI_URL`, `scopes`, and `host Auth_URL` values from `project.js` file.
 
 ### Create GraphQL query and mutation
-
 Add the following code to `customer.js`.
+
 ```js
 // New customer data
 const createCustomerMutationVariable = {
@@ -84,14 +84,12 @@ const createCustomerMutation = `
         customerSignUp (draft: $newCustomer) {
             customer {
                 id
-                email
-                firstName
             }
         }
     }
 `;
 
-// GraphQL query to get Customer `email`, `firstName` and `id`
+// GraphQL query to get Customer `email` and `firstName`
 const getCustomerByIdQuery = `
     query ($id: String) {
         customer (id: $id) {
@@ -102,12 +100,11 @@ const getCustomerByIdQuery = `
 `;
 ```
 
-`createCustomerMutationVariable` contains the new customer data and it had mandatory field `email` and `password` and optional fields `firstName` and `lastName`.Too find out list of all possible fields you can pass refer [CustomerDraft](https://docs.commercetools.com/api/projects/customers#customerdraft) documentation.
-Make sure you pass unique `email` value. 
+`createCustomerMutationVariable` contains the new customer data and mandatory field `email` and `password` and optional fields `firstName` and `lastName`. To find out list of all possible fields you can refer [CustomerDraft](https://docs.commercetools.com/api/projects/customers#customerdraft) documentation. Make sure you pass unique `email` value, you will get an error if try to create a new customer using already existing customer's email. 
 
-`createCustomerMutation` is the GraphQL mutation to create new customer on the commercetools project and returns `id`.
+`createCustomerMutation` is the GraphQL **mutation** to create a **new customer** on the commercetools project and returns `id`.
 
-`getCustomerByIdQuery` is the GraphQL query to get newly created customer info `email` and `firstName` by `id`.
+`getCustomerByIdQuery` is the GraphQL **query** to get newly created customer info `email` and `firstName` by `id`.
 
 To explore commercetools GraphQL API you can use an interactive [GraphiQL environment](https://github.com/graphql/graphiql/tree/main/packages/graphiql#readme) which is available as a part of [ImpEx & API Playground](https://docs.commercetools.com/docs/login).
 
@@ -115,13 +112,14 @@ To explore commercetools GraphQL API you can use an interactive [GraphiQL enviro
 
 Add the following code to `customer.js`.
 ```js
+// Create a new customer and return customer id
 const createNewCustomer = async () => {
     const result  = await apiRoot.withProjectKey({projectKey}).graphql().post({
         body : {
             query: CreateCustomerMutation,
             variables: createCustomerMutationVariable,
         }
-    }).execute();
+    }).execute()
 
     // Get customerId from the result
     const {
@@ -134,11 +132,12 @@ const createNewCustomer = async () => {
                 }
             }
         }
-    } = result;
+    } = result
     
-    return customerId;
-};
+    return customerId
+}
 
+// Get customer's email and firstName by customer id
 const getCustomerById = async (customerId) => apiRoot.withProjectKey({projectKey}).graphql().post({
         body: {
             query: customerQuery,
@@ -147,34 +146,24 @@ const getCustomerById = async (customerId) => apiRoot.withProjectKey({projectKey
             }
         }
     })
-    .execute();
+    .execute()
 
 (async () => {
     try {
-        const newlyCreatedCustomerId = await createNewCustomer();
-        const newlyCreatedCustomer = await getCustomerById(newlyCreatedCustomerId);
-        console.log('newly created customer info ---->', JSON.stringify(newlyCreatedCustomer));
+        const newlyCreatedCustomerId = await createNewCustomer()
+        const newlyCreatedCustomer = await getCustomerById(newlyCreatedCustomerId)
+        console.log('Newly created customer info ---->', JSON.stringify(newlyCreatedCustomer))
     } catch (error) {
-        console.log('ERROR --->', error);
+        console.log('ERROR --->', error)
     }
-})();
+})()
 ```
 
 Run the program. The output should look like the following if the request is successful:
 ```
 $ node customer.js
 Create a new customer using GraphQL and TypeScript SDK
-newly created customer info ----> { 
-    body: { 
-        data: { 
-            customer: {
-                email: "your.test@test.com",
-                firstName: "yourFirstName"
-            }
-        } 
-    }, 
-    statusCode: 200 
-}
+Newly created customer info ----> {"body":{"data":{"customer":{"email":"your.test@test.com","firstName":"yourFirstName"}}},"statusCode":200}
 ```
 
 
