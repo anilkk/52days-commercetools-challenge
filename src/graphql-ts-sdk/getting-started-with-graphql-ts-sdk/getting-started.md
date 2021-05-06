@@ -125,7 +125,7 @@ const projectSettingsQuery = `
 ```
 Replace the value `<your_project_key>`, `<your_auth_url>`, `<your_client_scope>` and `<your_api_url>` with your client `project_key`, `API URL`, `scope`, and `Auth URL` that you copied earlier.
 
-This code creates a **client**, which uses `authMiddleware` and `httpMiddleware`. The `httpMiddleware` reads the `client_id` and `secret` from environment variables. Then client will **execute** get project information request from `apiRoot` using **TypeScript SDK** and **GraphQL** query[projectSettingsQuery] to get project settings.
+This code creates a **client**, which uses `authMiddleware` and `httpMiddleware`. The `httpMiddleware` reads the `client_id` and `secret` from environment variables. Then client will **execute** get project information request from `apiRoot` using **TypeScript SDK** and **GraphQL** query[projectSettingsQuery] to get project settings. `projectSettingsQuery` retrieves project's `name`, `languages`,`currencies`,`countries`, `version` and `createdAt` fields. To explore commercetools GraphQL API you can use an interactive [GraphiQL environment](https://github.com/graphql/graphiql/tree/main/packages/graphiql#readme) which is available as a part of our [ImpEx & API Playground](https://docs.commercetools.com/docs/login).
 
 Run the program. The output should look like the following if the request is successful:
 ```
