@@ -6,7 +6,7 @@ This tutorial will show you how to use the middlewares in this **[commercetools 
 In this guide we’ll be calling a method of commercetools API using TypeScript SDK and GraphQL API to get the settings of a commercetools project. The commercetools API is the foundation of the commercetools Platform, and almost every commercetools client app uses it. Aside from getting project information, the commercetools API allows clients to call methods that can be used for everything from creating products to updating an order’s status. Before we can call any methods, we need to configure our new app to obtain an access token.
 
 ### Getting a client credentials to use the commercetools API
-From the API client Details page mentioned in the previous step copy  `project_key`, `clientId`, `clientSecret`, `API URL`, `scope` and `Auth URL`. The commercetools API uses `clientId` and `clientSecret` to authenticate the requests your app makes. In a later step, you’ll be asked to use these values in your code.
+From the API client Details page mentioned in the previous step copy  `project_key`, `client_id`, `secret`, `API URL`, `scope` and `Auth URL`. The commercetools API uses `client_id` and `secret` to authenticate the requests your app makes. In a later step, you’ll be asked to use these values in your code.
 
 ### Set up your local project
 If you don’t already have a project, let’s create a new one. In an empty directory, you can initialize a new project using the following command:
@@ -45,13 +45,13 @@ If you see the same output as above, we’re ready to start.
 ### Get commercetools project settings with the commercetools API
 In this guide we’ll get project settings information. We’ll also follow the best practice of keeping secrets outside of your code (do not hardcode sensitive data).
 
-Store the **client id** and **secret** in a new environment variable. Create a new file called `.env` in this directory and add the following code: 
+Store the **client_id** and **secret** in a new environment variable. Create a new file called `.env` in this directory and add the following code: 
 
 ```
 ADMIN_CLIENT_ID=<your_admin_client_id>
 ADMIN_CLIENT_SECRET=<your_admin_secret_id>
 ```
-Replace the values with your client id and client secret that you copied earlier.
+Replace the values with your `client_id` and `secret` that you copied earlier.
 
 Re-open `project.js` and add the following code:
 ```js
@@ -86,8 +86,9 @@ const client = createClient({
 })
 
 // Create a API root from API builder of commercetools platform client
-const apiRoot = createApiBuilderFromCtpClient(client);
+const apiRoot = createApiBuilderFromCtpClient(client)
 
+// GraphQL query to get commercetools project settings
 const projectSettingsQuery = `
     query {
         project {
@@ -99,7 +100,7 @@ const projectSettingsQuery = `
         createdAt
         }
     }
-`;
+`
 
 (async () => {
     try {
@@ -120,11 +121,11 @@ const projectSettingsQuery = `
     } catch (error) {
         console.log('ERROR --->', error);
     }
-})();
+})()
 ```
 Replace the value `<your_project_key>`, `<your_auth_url>`, `<your_client_scope>` and `<your_api_url>` with your client `project_key`, `API URL`, `scope`, and `Auth URL` that you copied earlier.
 
-This code creates a **client**, which uses `authMiddleware` and `httpMiddleware`. The `httpMiddleware` reads the `clientId` and `clientSecret` from environment variables. Then client will **execute** get project information request from `apiRoot` using **TypeScript SDK**.
+This code creates a **client**, which uses `authMiddleware` and `httpMiddleware`. The `httpMiddleware` reads the `client_id` and `secret` from environment variables. Then client will **execute** get project information request from `apiRoot` using **TypeScript SDK** and **GraphQL** query[projectSettingsQuery] to get project settings.
 
 Run the program. The output should look like the following if the request is successful:
 ```
